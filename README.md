@@ -1,4 +1,4 @@
-waterline-rethinkdb, a RethinkDB Adapter for Sails.
+waterline-rethinkdb, a RethinkDB Adapter for Waterline.
 ====================================
 
 [Homepage](https://github.com/gutenye/waterline-rethinkdb) |
@@ -9,30 +9,32 @@ waterline-rethinkdb, a RethinkDB Adapter for Sails.
 [Gratipay](https://gratipay.com/gutenye) |
 [Bountysource](https://www.bountysource.com/teams/gutenye)
 
-Contributions are welcome, the code is well structured and easy to understand.
+For [trails](https://github.com/trailsjs/trails), contributions are welcome, the code is well structured and easy to understand.
 
 Install
 -------
 
 ```
-$ npm install gutenye/waterline-rethinkdb#master
+$ npm install waterline
 ```
 
 USAGE
 -----
 
 ```
-# edit config/connections.js
+# edit config/database.js
 
-  rethinkdb: {
-    adapter: 'waterline-rethinkdb',
-    host: 'localhost',
-    db: 'test'
+  module.exports = {
+    stores: {
+       dev: {
+        adapter: require("waterline-rethinkdb"),
+        migrate: "alter",
+      }
+    },
+    models: {
+      defaultStore: "dev",
+    }
   }
-
-# edit config/models.js
-
-  connection: 'rethinkdb'
 ```
 
 [Connections Options Reference](http://rethinkdb.com/api/javascript/connect)
@@ -61,7 +63,7 @@ waterline.conn
 
 # Some times you need create index manulaly
 
-const {r, conn} = sails
+const {r, conn} = waterline
 r.table("tags_users__users_tags").indexCreate("users_tags").run(conn, (err, result) => {})
 ```
 

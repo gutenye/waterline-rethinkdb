@@ -1,23 +1,20 @@
 {
-  "name": "sails-rethinkdb",
-  "version": "1.0.1",
-  "description": "rethinkdb adapter for Sails / Waterline",
+  "name": "waterline-rethinkdb",
+  "version": "1.0.2",
+  "description": "Rethinkdb adapter for Waterline",
   "main": "index.js",
   "scripts": {
     "test": "node test/integration/runner -R spec -b"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gutenye/sails-rethinkdb.git"
+    "url": "https://github.com/gutenye/waterline-rethinkdb.git"
   },
   "keywords": [
     "rethinkdb",
     "adapter",
-    "sails",
     "waterline",
-    "orm",
-    "sailsjs",
-    "sails.js"
+    "orm"
   ],
   "author": "Guten Ye ",
   "license": "MIT",
@@ -31,13 +28,5 @@
     "mocha": "*",
     "root-require": "~0.2.0",
     "captains-log": "~0.10.6"
-  },
-  "sailsAdapter": {
-    "sailsVersion": "~0.10.0",
-    "implements": [
-      "semantic",
-      "queryable",
-      "associations"
-    ]
   }
 }
