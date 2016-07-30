@@ -1,7 +1,6 @@
 waterline-rethinkdb, a RethinkDB Adapter for Sails.
 ====================================
 
-
 [Homepage](https://github.com/gutenye/waterline-rethinkdb) |
 [Documentation](https://github.com/gutenye/waterline-rethinkdb/wiki) |
 [Issue Tracker](https://github.com/gutenye/waterline-rethinkdb/issues) |
@@ -62,7 +61,7 @@ waterline.conn
 
 # Some times you need create index manulaly
 
-const {r, conn} = waterline
+const {r, conn} = sails
 r.table("tags_users__users_tags").indexCreate("users_tags").run(conn, (err, result) => {})
 ```
 
