@@ -15,7 +15,7 @@ Install
 -------
 
 ```
-$ npm install waterline
+$ npm install waterline-rethinkdb
 ```
 
 USAGE
