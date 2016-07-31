@@ -25,7 +25,6 @@ module.exports = {
    * object to run commands off of. This creates a new pool for each connection config.
    */
   registerConnection(options, tables, cb) {
-    console.log(options, tables)
     if(!options.identity) return cb(new Error('Connection is missing an identity.'))
     if(this.connections.get(options.identity)) return cb(new Error('Connection is already registered.'))
 
