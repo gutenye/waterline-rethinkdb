@@ -23,6 +23,13 @@ module.exports = {
    *
    * Will open up a new connection using the configuration provided and store the DB
    * object to run commands off of. This creates a new pool for each connection config.
+   *
+   * options = {
+   *   schema: false,
+   *   version: 1,
+   *   identify: "dev",
+   *   <options from config/database.js>
+   *
    */
   registerConnection(options, tables, cb) {
     if(!options.identity) return cb(new Error('Connection is missing an identity.'))

@@ -50,12 +50,28 @@ User.native((err, table) => {
 })
 ```
 
-Relationships
+### Indexes
+
+config/database.js
+
+```
+module.exports = {
+  stores: {
+     dev: {
+       indexes: [
+        ["users", ["accountId", "addressId"]],
+      ]
+    }
+  },
+}
+```
+
+### Relationships
 
 one-to-many: `r.table("posts").indexCreate("user")`
 many-to-many: `r.table("tags_users__users_tags").indexCreate("users_tags")` `r.table("tags_users__users_tags").indexCreate("tags_users")`
 
-Assess rethinkdb
+### Assess rethinkdb
 
 ```
 waterline.r
@@ -67,21 +83,7 @@ const {r, conn} = waterline
 r.table("tags_users__users_tags").indexCreate("users_tags").run(conn, (err, result) => {})
 ```
 
-Roadmap
-------
-
-|                     |                     |
-|---------------------|---------------------|
-|Sails Query Language | [80%](https://github.com/gutenye/waterline-rethinkdb/blob/master/lib/query.js)
-| create              | COMPLETED
-| update              | COMPLETED
-| destroy             | COMPLETED
-| count               | COMPLETED
-| native              | COMPLETED
-| join                | COMPLETED
-| stream              | NOT
-
-Query Language Different from Official
+### Query Language Different from Official
 
 - contains is for array
 
