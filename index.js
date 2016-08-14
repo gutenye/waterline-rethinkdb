@@ -1,10 +1,10 @@
 const Connection = require("./lib/connection")
 const debug = require("debug")("waterline-rethinkdb")
 
+var connections =  new Map()
+
 module.exports = {
   identity: "waterline-rethinkdb",
-
-  connections: new Map(),
 
   // Which type of primary key is used by default
   pkFormat: 'string',
@@ -33,11 +33,11 @@ module.exports = {
    */
   registerConnection(options, tables, cb) {
     if(!options.identity) return cb(new Error('Connection is missing an identity.'))
-    if(this.connections.get(options.identity)) return cb(new Error('Connection is already registered.'))
+    if(connections.get(options.identity)) return cb(new Error('Connection is already registered.'))
 
     Connection.connect(options, tables, (err, connection) => {
       if (err) return cb(err)
-      this.connections.set(options.identity, connection)
+      connections.set(options.identity, connection)
       cb()
     })
   },
@@ -54,12 +54,12 @@ module.exports = {
       conn = null
     }
     if (!conn) {
-      this.connections = new Map()
+      connections = new Map()
       return cb()
     }
-    if(!this.connections.get(conn)) return cb()
-    this.connections.get(conn).close(() => {
-      this.connections.delete(conn)
+    if(!connections.get(conn)) return cb()
+    connections.get(conn).close(() => {
+      connections.delete(conn)
     })
     cb()
   },
@@ -71,7 +71,7 @@ module.exports = {
    * queries.
    */
   native(connectionName, tableName, cb) {
-    cb(null, this.connections.get(connectionName).tables[tableName].table)
+    cb(null, connections.get(connectionName).tables[tableName].table)
   },
 
   /**
@@ -81,7 +81,7 @@ module.exports = {
    */
   create(connectionName, tableName, data, cb) {
     debug("create", tableName, data)
-    this.connections.get(connectionName).tables[tableName].insert(data, cb)
+    connections.get(connectionName).tables[tableName].insert(data, cb)
   },
 
   /**
@@ -91,7 +91,7 @@ module.exports = {
    */
   createEach: function(connectionName, tableName, data, cb) {
     debug("createEach", tableName, data)
-    this.connections.get(connectionName).tables[tableName].insertEach(data, cb)
+    connections.get(connectionName).tables[tableName].insertEach(data, cb)
   },
 
   /**
@@ -101,7 +101,7 @@ module.exports = {
    */
   find(connectionName, tableName, query, cb) {
     debug("find", tableName, query)
-    this.connections.get(connectionName).tables[tableName].find(query, cb)
+    connections.get(connectionName).tables[tableName].find(query, cb)
   },
 
   /**
@@ -111,7 +111,7 @@ module.exports = {
    */
   update(connectionName, tableName, query, data, cb) {
     debug("update", tableName, query)
-    this.connections.get(connectionName).tables[tableName].update(query, data, cb)
+    connections.get(connectionName).tables[tableName].update(query, data, cb)
   },
 
   /**
@@ -121,7 +121,7 @@ module.exports = {
    */
   destroy(connectionName, tableName, query, cb) {
     debug("destroy", tableName, query)
-    this.connections.get(connectionName).tables[tableName].destroy(query, cb)
+    connections.get(connectionName).tables[tableName].destroy(query, cb)
   },
 
   /**
@@ -131,7 +131,7 @@ module.exports = {
    */
   count(connectionName, tableName, query, cb) {
     debug("count", tableName, query)
-    this.connections.get(connectionName).tables[tableName].count(query, cb)
+    connections.get(connectionName).tables[tableName].count(query, cb)
   },
 
   /** TODO
@@ -143,7 +143,7 @@ module.exports = {
   join(connectionName, tableName, query, cb) {
     // {where: null, joins: [{ parent: 'users', parentKey: 'id', child: 'posts', childKey: 'user', select: [Object], alias: 'posts', removeParentKey: false, model: false, collection: true, q: [Object] }] }
     debug("join %o %o %o", tableName, query, query.joins[0].select, query.joins[0].criteria)
-    this.connections.get(connectionName).tables[tableName].join(query, cb)
+    connections.get(connectionName).tables[tableName].join(query, cb)
   },
 
 

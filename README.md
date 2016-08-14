@@ -49,6 +49,16 @@ User.native((err, table) => {
   })
 })
 ```
+Use secondary index
+
+```
+User.find({getAll: "foo,authorId"})
+
+->
+
+  r.table(x).getAll("foo", {index: "authorId"})
+
+```
 
 ### Indexes
 
@@ -83,12 +93,28 @@ const {r, conn} = waterline
 r.table("tags_users__users_tags").indexCreate("users_tags").run(conn, (err, result) => {})
 ```
 
-### Query Language Different from Official
+### Query Language
+
+```
+{
+  where: {
+    id   : 1,
+    id   : {">": 2},             < <= > >= ! not lessThan lessThanOrEqual greaterThan greaterThanOrEqual like startsWith endsWith
+    role : ["admin", "owner"]   «in»  {"!": ["admin", "owner"]}
+    or   : [{id: 1}, ..]
+    tags : {"contains": [1, 2]}}   // contains is for array, means tags.includes(1) and tags.includes(2)
+    name : {"match": "^foo"}       // use RethinkDB string#match
+  },
+  skip: 9,
+  limit: 5,                     «convert "-1" to 0»
+  sort: "age"                    "age DESC" ASC {name: 1, age: 0}
+}
+
+```
 
 - contains is for array
 
 ```
-{tags: {"contains": [1, 2]}} means tags.includes(1) and tags.includes(2)
 ```
 
 - limit, skip support string, and limit support -1
