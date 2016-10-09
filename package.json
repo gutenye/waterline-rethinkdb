@@ -1,6 +1,6 @@
 {
   "name": "waterline-rethinkdb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rethinkdb adapter for Waterline",
   "main": "index.js",
   "scripts": {
